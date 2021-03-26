@@ -41,7 +41,6 @@ try:
     import paddle.v2 as paddle
 except ModuleNotFoundError as e:
     import paddle
-
 from PIL import Image
 
 
@@ -57,8 +56,7 @@ from image_classification.resnet import ResNet
 
 #通过设置环境变量WITH_GPU 来动态设置是否使用GPU资源 特别适合在mac上开发但是在GPU服务器上运行的情况
 #比如在mac上不设置该环境变量，在GPU服务器上设置 export WITH_GPU=1
-#with_gpu = os.getenv('WITH_GPU', '0') != '0'
-with_gpu = True
+with_gpu = os.getenv('WITH_GPU', '0') != '0'
 img_mean = np.array([0.485, 0.456, 0.406]).reshape((3, 1, 1))
 img_std = np.array([0.229, 0.224, 0.225]).reshape((3, 1, 1))
 
@@ -90,8 +88,8 @@ def get_image(image_file):
     img = Image.open(image_file)
     if img.mode != 'RGB':
         img = img.convert('RGB')
-    #img = resize_short(img, target_size=256)
-    #img = crop_image(img, target_size=224, center=True)
+    img = resize_short(img, target_size=256)
+    img = crop_image(img, target_size=224, center=True)
     img = old_div(np.array(img).astype("float32").transpose((2, 0, 1)), 255)
 
     #imagenet数据训练时进行了标准化，强烈建议图像预处理时也进行预处理
@@ -109,10 +107,10 @@ def main(use_cuda):
     IMG_NAME = 'img'
     LABEL_NAME = 'label'
     #模型路径 http://paddle-imagenet-models.bj.bcebos.com/resnet_50_model.tar 下载并解压
-    pretrained_model = "F:/dachuang/resnet_50/115/"
+    pretrained_model = "/root/attack/AdvCamera/blackbox/115/"
     #pretrained_model = "models/alexnet/116/"
     image_shape = [3,224,224]
-
+    
     image = fluid.layers.data(name=IMG_NAME, shape=image_shape, dtype='float32')
     label = fluid.layers.data(name=LABEL_NAME, shape=[1], dtype='int64')
 
@@ -155,7 +153,7 @@ def main(use_cuda):
 
     attack_config = {"R": 200,"r":1.0}
 
-    test_data = get_image("cat.png")
+    test_data = get_image("Abyssinian_1.jpg")
     original_data=np.copy(test_data)
     # 猫对应的标签 imagenet 2012 对应链接https://blog.csdn.net/LegenDavid/article/details/73335578
     original_label = None
@@ -186,9 +184,9 @@ def main(use_cuda):
     else:
         print('attack failed, original_label=%d' % (adversary.original_label))
 
-    logger.info("LocalSearchAttack attack done")
+    logger.info("LocalSearchAttack attack done") 
 
 
 
 if __name__ == '__main__':
-    main(use_cuda=with_gpu)
+    main(use_cuda=0)

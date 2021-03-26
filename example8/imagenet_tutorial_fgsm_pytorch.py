@@ -49,7 +49,8 @@ import numpy as np
 import cv2
 
 
-def main(image_path,pic_name):
+#def main(image_path,pic_name):
+def main():
 
     # Define what device we are using
     logging.info("CUDA Available: {}".format(torch.cuda.is_available()))
@@ -57,7 +58,7 @@ def main(image_path,pic_name):
 
 
 
-    orig = cv2.imread(image_path)[..., ::-1]
+    orig = cv2.imread("/root/attack/AdvCamera/example8/Abyssinian_1.jpg")[..., ::-1]
     #orig = cv2.resize(orig, (224, 224))
     img = orig.copy().astype(np.float32)
 
@@ -122,7 +123,8 @@ def main(image_path,pic_name):
         adv = adv * 255.0
         adv = adv[..., ::-1]  # RGB to BGR
         adv = np.clip(adv, 0, 255).astype(np.uint8)
-        cv2.imwrite('F:\\dachuang\\animals\\save_path\\'+pic_name, adv)
+        #cv2.imwrite('/root/attack/AdvCamera/example8/'+ pic_name, adv)
+        cv2.imwrite('/root/attack/AdvCamera/example8/Abyssinian_1.jpg' , adv)
 
     else:
         print('attack failed')
@@ -134,4 +136,5 @@ def main(image_path,pic_name):
 if __name__ == '__main__':
     #main("cropped_panda.jpg")
     import sys
-    main(sys.argv[1],sys.argv[2])
+    #main(sys.argv[1],sys.argv[2])
+    main()
