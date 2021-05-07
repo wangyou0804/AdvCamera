@@ -64,7 +64,6 @@ def main(image_path):
     # Initialize the network
     #model = models.resnet18(pretrained=True).to(device).eval()
     model = models.alexnet(pretrained=True).to(device).eval()
-
     label=np.argmax(model(img).data.cpu().numpy())
 
     print("label={}".format(label))
