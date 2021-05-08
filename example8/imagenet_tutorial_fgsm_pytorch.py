@@ -106,7 +106,7 @@ def main(src, dst):
     adversary = Adversary(inputs, labels)
     #adversary = Adversary(inputs, 388)
 
-    tlabel = 538
+    tlabel = 540
     adversary.set_target(is_targeted_attack=True, target_label=tlabel)
 
 

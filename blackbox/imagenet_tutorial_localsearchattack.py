@@ -189,4 +189,4 @@ def main(use_cuda, src, dst):
 
 
 if __name__ == '__main__':
-    main(use_cuda=0,sys.argv[1],sys.argv[2])
+    main(use_cuda=0,src = sys.argv[1],dst =  sys.argv[2])

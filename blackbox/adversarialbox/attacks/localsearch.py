@@ -272,7 +272,9 @@ class LocalSearchAttack(Attack):
                 """
                 original_label为原始图像的标签
                 """
-                scores=[ self.model.predict(unnormalize(Ii))[original_label] for It in Its ]
+                print(len(self.model.predict(unnormalize(Ii))))
+                print("original_label:{}".format(original_label))
+                scores=[ self.model.predict(unnormalize(Ii))[0][original_label] for It in Its ]
 
                 return scores
 
@@ -295,7 +297,8 @@ class LocalSearchAttack(Attack):
 
             f = self.model.predict(unnormalize(Ii))
             adv_label = np.argmax(f)
-            adv_label_pro=self.softmax(f)[adv_label]
+            print("softmax:{}".format(len(self.softmax(f))))
+            adv_label_pro=self.softmax(f)[0][adv_label]
             logger.info("adv_label={0} adv_label_pro={1}".format(adv_label,adv_label_pro))
             # print("adv_label={0}".format(adv_label))
             if adversary.try_accept_the_example(unnormalize(Ii), adv_label):
