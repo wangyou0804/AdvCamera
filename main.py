@@ -48,7 +48,7 @@ def api_download(filename):
 
 # 上传文件
 @app.route('/api/upload/<type>', methods=['POST'], strict_slashes=False)
-def api_upload():
+def api_upload(type):
     file_dir = os.path.join(basedir, app.config['UPLOAD_FOLDER'])
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
@@ -69,11 +69,11 @@ def api_upload():
         fname_adv = tmp[0] + tmp[1]
         src = "/root/attack/AdvCamera/pics/" + fname
         dst = "/root/attack/AdvCamera/output/" + fname_adv
-        if(type == 0)
+        if type == '0':
             os.system("python3 /root/attack/AdvCamera/example8/imagenet_tutorial_fgsm_pytorch.py " + src +" "+ dst)
-        else if(type == 1)
+        elif type == '1':
              os.system("python3 /root/attack/AdvCamera/example9/imagenet_tutorial_fgsm_mxnet.py " + src +" "+ dst)
-        else if(type == 2)
+        elif type == '2':
             os.system("python3 /root/attack/AdvCamera/blackbox/imagenet_tutorial_localsearchattack.py " + src +" "+ dst)
         print("success!")
         # TODO：2.添加放在服务器上download代码
