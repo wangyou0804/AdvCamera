@@ -54,13 +54,13 @@ import numpy as np
 import cv2
 
 
-def main(image_path, pic_name):
+def main(src, dst):
 
     alexnet = mx.gluon.model_zoo.vision.alexnet(pretrained=True)
 
     # print(alexnet)
 
-    orig = cv2.imread(image_path)[..., ::-1]
+    orig = cv2.imread(src)[..., ::-1]
     orig = cv2.resize(orig, (224, 224))
     img = orig.copy().astype(np.float32)
 
@@ -111,7 +111,7 @@ def main(image_path, pic_name):
         adv = adv * 255.0
         adv = adv[..., ::-1]  # RGB to BGR
         adv = np.clip(adv, 0, 255).astype(np.uint8)
-        cv2.imwrite('F:\\dachuang\\animals\\save_path\\'+pic_name, adv)
+        cv2.imwrite(dst, adv)
 
     else:
         print('attack failed')

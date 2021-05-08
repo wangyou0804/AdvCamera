@@ -98,7 +98,7 @@ def get_image(image_file):
     #img=img[np.newaxis, :]
     return img
 
-def main(use_cuda):
+def main(use_cuda, src, dst):
 
     """
     Advbox demo which demonstrate how to use advbox.
@@ -153,7 +153,7 @@ def main(use_cuda):
 
     attack_config = {"R": 200,"r":1.0}
 
-    test_data = get_image("Abyssinian_1.jpg")
+    test_data = get_image(src)
     original_data=np.copy(test_data)
     # 猫对应的标签 imagenet 2012 对应链接https://blog.csdn.net/LegenDavid/article/details/73335578
     original_label = None
@@ -178,7 +178,7 @@ def main(use_cuda):
         adversary_image = np.array(adversary_image * 255).astype("uint8").transpose([1, 2, 0])
 
         im = Image.fromarray(adversary_image)
-        im.save("adversary_image.jpg")
+        im.save(dst)
 
 
     else:
@@ -189,4 +189,4 @@ def main(use_cuda):
 
 
 if __name__ == '__main__':
-    main(use_cuda=0)
+    main(use_cuda=0,sys.argv[1],sys.argv[2])
